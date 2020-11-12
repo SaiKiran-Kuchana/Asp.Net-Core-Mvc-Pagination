@@ -1,0 +1,66 @@
+﻿@model PagedList.Core.IPagedList<Pagination.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" asp-controller="SearchStudentPage" asp-action="search">
+    <input type="text" name="keyword" value="@ViewBag.keyword" />
+    <input type="submit" value="Search" />
+    @if (Model != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        RollNo
+                    </th>
+                    <th>
+                        Class
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RollNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Class)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5" align="left">
+                        <pager list="@Model"
+                               asp-controller="SearchStudentPage"
+                               asp-action="search"
+                               asp-route-keyword="@ViewBag.keyword" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</form>
+
+
